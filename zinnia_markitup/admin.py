@@ -59,7 +59,7 @@ class EntryAdminMarkItUpMixin(object):
         The medias needed to enhance the admin page.
         """
         def static_url(url):
-            return staticfiles_storage.url('zinnia_wymeditor/%s' % url)
+            return staticfiles_storage.url('zinnia_markitup/%s' % url)
 
         media = super(EntryAdminMarkItUpMixin, self).media
 
