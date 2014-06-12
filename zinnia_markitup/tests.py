@@ -6,6 +6,7 @@ from django.test.utils import restore_template_loaders
 from django.test.utils import setup_test_template_loader
 
 from zinnia.models.entry import Entry
+from zinnia.settings import MARKUP_LANGUAGE
 from zinnia.signals import disconnect_entry_signals
 
 from zinnia_markitup.admin import EntryAdminMarkItUp
@@ -39,14 +40,28 @@ class EntryAdminMarkItUpTestCase(BaseAdminTestCase):
         setup_test_template_loader({template_to_use: ''})
         response = self.admin.markitup(self.request)
         self.assertTemplateUsed(response, template_to_use)
-        self.assertEqual(len(response.context_data['lang']), 2)
         self.assertEqual(response['Content-Type'], 'application/javascript')
+
+    def test_content_preview(self):
+        template_to_use = 'admin/zinnia/entry/preview.html'
+        request = self.request_factory.post('/', {'data': 'Hello world'})
+        setup_test_template_loader({template_to_use: ''})
+        response = self.admin.content_preview(request)
+        self.assertTemplateUsed(response, template_to_use)
+        self.assertEqual(response.context_data['preview'],
+                         '<p>Hello world</p>\n')
+        self.assertEqual(response['Content-Type'], 'text/html; charset=utf-8')
 
     def test_medias(self):
         medias = self.admin.media
         self.assertEqual(
             medias._css,
-            {'all': ['/static/zinnia/css/jquery.autocomplete.css']})
+            {'all': [
+                '/static/zinnia/css/jquery.autocomplete.css',
+                '/static/zinnia_markitup/js/markitup/skins/django/style.css',
+                '/static/zinnia_markitup/js/markitup/sets/%s/style.css' %
+                MARKUP_LANGUAGE]})
+        self.maxDiff = None
         self.assertEqual(
             medias._js,
             ['/static/admin/js/core.js',
@@ -60,7 +75,7 @@ class EntryAdminMarkItUpTestCase(BaseAdminTestCase):
              '/static/zinnia/js/jquery.bgiframe.js',
              '/static/zinnia/js/jquery.autocomplete.js',
              '/admin/zinnia/entry/autocomplete_tags/',
-             '/static/zinnia_wymeditor/js/wymeditor/jquery.wymeditor.pack.js',
-             '/static/zinnia_wymeditor/js/wymeditor/'
-             'plugins/hovertools/jquery.wymeditor.hovertools.js',
-             '/admin/zinnia/entry/wymeditor/'])
+             '/static/zinnia_markitup/js/markitup/jquery.markitup.js',
+             '/static/zinnia_markitup/js/markitup/sets/'
+             'restructuredtext/set.js',
+             '/admin/zinnia/entry/markitup/'])
