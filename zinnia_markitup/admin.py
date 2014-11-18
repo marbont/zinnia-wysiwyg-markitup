@@ -84,5 +84,7 @@ class EntryAdminMarkItUp(EntryAdminMarkItUpMixin,
     """
     pass
 
-admin.site.unregister(Entry)
-admin.site.register(Entry, EntryAdminMarkItUp)
+
+if settings.ENTRY_BASE_MODEL == 'zinnia.models_bases.entry.AbstractEntry':
+    admin.site.unregister(Entry)
+    admin.site.register(Entry, EntryAdminMarkItUp)
