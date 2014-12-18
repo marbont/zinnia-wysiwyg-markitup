@@ -57,7 +57,6 @@ class EntryAdminMarkItUpTestCase(BaseAdminTestCase):
         self.assertEqual(
             medias._css,
             {'all': [
-                '/static/zinnia/css/jquery.autocomplete.css',
                 '/static/zinnia_markitup/js/markitup/skins/django/style.css',
                 '/static/zinnia_markitup/js/markitup/sets/%s/style.css' %
                 MARKUP_LANGUAGE]})
@@ -71,10 +70,7 @@ class EntryAdminMarkItUpTestCase(BaseAdminTestCase):
              '/static/admin/js/actions.min.js',
              '/static/admin/js/urlify.js',
              '/static/admin/js/prepopulate.min.js',
-             '/static/zinnia/js/jquery.js',
-             '/static/zinnia/js/jquery.bgiframe.js',
-             '/static/zinnia/js/jquery.autocomplete.js',
-             '/admin/zinnia/entry/autocomplete_tags/',
+             '/static/zinnia_markitup/js/jquery.min.js',
              '/static/zinnia_markitup/js/markitup/jquery.markitup.js',
              '/static/zinnia_markitup/js/markitup/sets/'
              'restructuredtext/set.js',

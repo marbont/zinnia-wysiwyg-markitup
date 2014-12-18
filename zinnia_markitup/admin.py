@@ -64,7 +64,8 @@ class EntryAdminMarkItUpMixin(object):
         media = super(EntryAdminMarkItUpMixin, self).media
 
         media += Media(
-            js=(static_url('js/markitup/jquery.markitup.js'),
+            js=(static_url('js/jquery.min.js'),
+                static_url('js/markitup/jquery.markitup.js'),
                 static_url('js/markitup/sets/%s/set.js' % (
                     settings.MARKUP_LANGUAGE)),
                 reverse('admin:zinnia_entry_markitup')),
@@ -84,5 +85,7 @@ class EntryAdminMarkItUp(EntryAdminMarkItUpMixin,
     """
     pass
 
-admin.site.unregister(Entry)
-admin.site.register(Entry, EntryAdminMarkItUp)
+
+if settings.ENTRY_BASE_MODEL == 'zinnia.models_bases.entry.AbstractEntry':
+    admin.site.unregister(Entry)
+    admin.site.register(Entry, EntryAdminMarkItUp)
