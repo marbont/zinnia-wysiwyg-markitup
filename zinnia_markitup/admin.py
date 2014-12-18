@@ -64,7 +64,8 @@ class EntryAdminMarkItUpMixin(object):
         media = super(EntryAdminMarkItUpMixin, self).media
 
         media += Media(
-            js=(static_url('js/markitup/jquery.markitup.js'),
+            js=(static_url('js/jquery.min.js'),
+                static_url('js/markitup/jquery.markitup.js'),
                 static_url('js/markitup/sets/%s/set.js' % (
                     settings.MARKUP_LANGUAGE)),
                 reverse('admin:zinnia_entry_markitup')),
