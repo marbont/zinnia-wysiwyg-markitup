@@ -1,16 +1,15 @@
 """EntryAdmin for zinnia-markitup"""
-from django.forms import Media
 from django.conf.urls import url
-from django.conf.urls import patterns
 from django.contrib import admin
-from django.core.urlresolvers import reverse
-from django.views.decorators.csrf import csrf_exempt
-from django.template.response import TemplateResponse
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.urlresolvers import reverse
+from django.forms import Media
+from django.template.response import TemplateResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from zinnia import settings
-from zinnia.models import Entry
 from zinnia.admin.entry import EntryAdmin
+from zinnia.models import Entry
 
 
 class EntryAdminMarkItUpMixin(object):
@@ -43,15 +42,14 @@ class EntryAdminMarkItUpMixin(object):
         Overload the admin's urls for MarkItUp.
         """
         entry_admin_urls = super(EntryAdminMarkItUpMixin, self).get_urls()
-        urls = patterns(
-            '',
+        urls = [
             url(r'^markitup/$',
                 self.admin_site.admin_view(self.markitup),
                 name='zinnia_entry_markitup'),
             url(r'^markitup/preview/$',
                 self.admin_site.admin_view(self.content_preview),
                 name='zinnia_entry_markitup_preview')
-        )
+        ]
         return urls + entry_admin_urls
 
     def _media(self):
