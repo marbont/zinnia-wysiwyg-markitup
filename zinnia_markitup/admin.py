@@ -2,9 +2,12 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.core.urlresolvers import reverse
 from django.forms import Media
 from django.template.response import TemplateResponse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from zinnia import settings
